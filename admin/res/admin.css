@@ -1,0 +1,15 @@
+html {
+  font: normal 100%/1.5 sans-serif;
+}
+
+h1 {
+  background: #ddf;
+  border-bottom: 1px solid #333;
+  font-size: 1.2em;
+  padding: 0 5px;
+  margin: 0;
+}
+
+#snippet-chooser {
+  width: 20%;
+}

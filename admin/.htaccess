@@ -1,0 +1,17 @@
+<IfModule mod_rewrite.c>
+  RewriteEngine on
+
+  # Block hidden directories (starting with period)
+  RewriteRule "(^|/)\." - [F]
+
+  # Redirect from example.org to www.example.org
+  # RewriteCond %{HTTP_HOST} .
+  # RewriteCond %{HTTP_HOST} !^www\. [NC]
+  # RewriteRule ^ http%{ENV:protossl}://www.%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+  # Rewrite from
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteCond %{REQUEST_URI} !=/favicon.ico
+  RewriteRule ^ index.php [L]
+</IfModule>

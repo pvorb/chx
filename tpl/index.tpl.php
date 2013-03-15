@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Stapf Dentaltechnik GmbH</title>
+<title><?php snippet('Website Title') ?></title>
 </head>
 <body>
-	<?php s('Intro') ?>
-	<p class="copyright">
-		<?php s('Copyright') ?>
-	</p>
+  <?php snippet('Intro') ?>
+  <p class="copyright">
+    <?php snippet('Copyright') ?>
+  </p>
 </body>
 </html>

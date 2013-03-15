@@ -4,6 +4,6 @@
 <title>Impressum</title>
 </head>
 <body>
-	<?php s('Impressum') ?>
+	<?php snippet('Impressum') ?>
 </body>
 </html>

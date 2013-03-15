@@ -1,5 +1,5 @@
 <?php
-$language = 'de-DE'; // TODO remove, determin through user setting
+$language = 'de-DE'; // TODO remove, determin through user setting, only for testing
 
 require_once '../src/conf.php';
 

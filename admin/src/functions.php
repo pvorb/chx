@@ -1,4 +1,6 @@
 <?php
+// defines some common functions for the backend
+
 function translate($key) {
   global $l10n;
 
@@ -38,9 +40,7 @@ function get_snippet_by_id($id) {
 }
 
 function escape_html($html) {
-  $html = str_replace('<', '&lt;', $html);
-  $html = str_replace('>', '&gt;', $html);
-  return $html;
+  return htmlspecialchars($html);
 }
 
 function capitalize(&$string) {

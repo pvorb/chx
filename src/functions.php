@@ -1,4 +1,8 @@
 <?php
+// defines some common functions for the frontend
+
+// define global $missing_snippets array
+$missing_snippets = array();
 
 function error($code) {
   if (!headers_sent())
@@ -18,10 +22,14 @@ function str_remove_prefix($str, $prefix) {
 
 function get_snippets($path) {
   global $db;
+  
+  $path = $db->escape_string($path);
 
-  $res = $db->query('SELECT `snippet`.`id`, `snippet`.`content` '
-      .'FROM `snippet`, `template` '
-      .'WHERE `template`.`path` = \''.$path.'\' AND `snippet`.`id` = `template`.`snippet_id`;');
+  $res = $db->query(
+      'SELECT `snippet`.`id`, `snippet`.`content` '.
+      'FROM `snippet`, `template` '.
+      'WHERE `template`.`path` = \''.$path.'\' AND `snippet`.`id` = `template`.`snippet_id`;'
+  );
 
   $result = array();
   while ($row = $res->fetch_assoc())
@@ -58,7 +66,40 @@ function remove_file_extension($path) {
   return substr($path, 0, $dotpos);
 }
 
-function s($id) {
+function add_missing_snippet($id) {
+  global $db;
+  global $missing_snippets;
+  global $requested_path;
+
+  $missing_snippets[] = $id;
+
+  $db->query(
+      'INSERT INTO `template` (`snippet_id`, `path`) '.
+      'VALUES (\''.$db->real_escape_string($id).'\', \''.
+      $db->real_escape_string($requested_path).'\');'
+  );
+}
+
+function create_missing_snippets() {
+  global $db;
+  global $missing_snippets;
+
+  // do nothing if there are no missing snippets
+  if (sizeof($missing_snippets) == 0)
+    return;
+
+  $db->query(
+      'INSERT INTO `snippet`'
+  );
+}
+
+function snippet($id) {
   global $snippets;
-  echo $snippets[$id];
+
+  if (isset($snippets[$id]))
+    echo $snippets[$id];
+  else {
+    add_missing_snippet($id);
+    echo 'XXXXX'; // show 5 X's for a missing snippet
+  }
 }

@@ -26,6 +26,7 @@ function get_all_snippet_ids() {
 function get_snippet_by_id($id) {
   global $db;
 
+  $id = $db->real_escape_string($id);
   $query = "SELECT `content` FROM `snippet` WHERE `id` = '$id';";
   $res = $db->query($query);
 
@@ -37,6 +38,20 @@ function get_snippet_by_id($id) {
 
   $res->free();
   return $content;
+}
+
+function save_snippet($id, $content) {
+  global $db;
+
+  $id = $db->real_escape_string($id);
+  $content = $db->real_escape_string($content);
+
+  $query = "INSERT INTO `snippet` ".
+      "(`id`, `content`) ".
+      "VALUES ('$id', '$content') ".
+      "ON DUPLICATE KEY UPDATE `content` = '$content';";
+  
+  return $db->query($query);
 }
 
 function escape_html($html) {

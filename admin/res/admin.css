@@ -2,14 +2,123 @@ html {
   font: normal 100%/1.5 sans-serif;
 }
 
+#bar {
+  overflow: hidden;
+  margin-bottom: .5em;
+}
+
+#logo {
+  float: left;
+}
+
+#logo img {
+  height: 1.5em;
+}
+
+ul#status {
+  margin: 0;
+  padding: 0;
+  float: right;
+}
+
+ul#status li {
+  display: inline;
+}
+
+ul#status li:after {
+  content: " ‒";
+}
+
+ul#status li:last-child:after {
+  content: "";
+}
+
+h1, h2 {
+  border-bottom: 1px solid #333;
+  padding: 0 5px;
+  margin: 0 0 .5em;
+}
+
 h1 {
   background: #ddf;
-  border-bottom: 1px solid #333;
   font-size: 1.2em;
-  padding: 0 5px;
-  margin: 0;
+}
+
+h2 {
+  background: #eef;
+  font-size: 1em;
 }
 
 #snippet-chooser {
   width: 20%;
+}
+
+#main {
+  overflow: hidden;
+}
+
+.saved {
+  background: #0d0;
+  display: inline-block;
+  top: .3em;
+  left: 40%;
+  width: 20%;
+  padding: .2em .5em;
+  position: absolute;
+  text-align: center;
+}
+
+#editor {
+  float: left;
+  width: 50%;
+  max-width: 50%;
+}
+
+#editor h2 {
+  margin-right: 1%;
+  width: 99%;
+  box-sizing: border-box;
+}
+
+#editor textarea {
+  box-sizing: border-box;
+  margin-right: 1%;
+  line-height: 1.5;
+  width: 99%;
+  max-width: 99%;
+}
+
+#editor .save {
+  float: right;
+}
+
+#preview {
+  margin-left: 50%;
+  max-width: 50%;
+}
+
+#preview h2 {
+  width: 99%;
+  margin-left: 1%;
+  box-sizing: border-box;
+}
+
+#preview #canvas {
+  margin-left: 1%;
+  width: 99%;
+  max-width: 99%;
+  box-sizing: border-box;
+}
+
+#canvas h1, h2 {
+  background: none;
+  border: 0;
+  margin: .5em 0;
+  padding: 0;
+}
+
+#legal-notice {
+  clear: both;
+  margin: 3em 0;
+  text-align: center;
 }

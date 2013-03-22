@@ -3,56 +3,59 @@
 $all = get_all_snippet_ids();
 
 $id = false;
+$saved = false;
 if (isset($_GET['snippet']) && $_GET['snippet'] != '') {
   $id = $_GET['snippet'];
-  $snippet = get_snippet_by_id($id);
+  if (isset($_POST['content'])) {
+    $snippet = $_POST['content'];
+    $saved = save_snippet($id, $snippet);
+  } else {
+    $snippet = get_snippet_by_id($id);
+  }
 }
 ?>
 <!DOCTYPE html>
 <meta charset="utf-8">
-<title>Edit<?php echo ($id ? ' '.$id : ''); ?>
+<title>Edit<?php echo ($id ? ' "'.$id.'"' : ''); ?>
 </title>
-<link rel="stylesheet"
-  href="res/admin.css">
-<link rel="stylesheet"
-  href="res/jwysiwyg.css">
+<link rel="stylesheet" href="res/admin.css">
 <div id="container">
-  <h1><?php translate('edit') ?><?php echo ($id ? ' <em>'.$id.'</em>' : ''); ?></h1>
-  <form><select id="snippet-chooser">
-    <?php
-      foreach ($all as $snippet_id)
-        echo '<option>'.$snippet_id.'</option>';
-    ?>
-  </select></form>
-  <?php if ($id): ?>
-  <div id="editor">
-    <textarea class="wysiwyg" rows="30" cols="100">
-      <?php echo escape_html($snippet) ?>
-    </textarea>
+  <?php include 'snippets/header.tpl.php' ?>
+  <form action="edit.html" method="get">
+    <h1>
+      <?php translate('edit') ?>
+      <select id="snippet-chooser" name="snippet">
+        <?php
+        foreach ($all as $snippet_id) {
+          echo '<option value="'.$snippet_id.'" '.($id == $snippet_id ? ' selected' : '').'>'.$snippet_id.'</option>';
+        }
+        ?>
+      </select> <input id="choose" type="submit" value="wählen" />
+    </h1>
+  </form>
+  <div id="main">
+    <?php if ($saved): ?>
+    <div class="saved">gespeichert</div>
+    <?php endif ?>
+    <?php if ($id): ?>
+    <div id="editor">
+      <form action="edit.html?snippet=<?php echo $id ?>" method="post">
+        <h2>Editor</h2>
+        <textarea id="content" name="content" rows="20" cols="80"><?php
+          echo escape_html($snippet)
+        ?></textarea>
+        <a href="markdown-guide.de.html" target="_blank">Anleitung</a> <input
+          id="save" class="save" type="submit" value="Speichern" />
+      </form>
+    </div>
+    <div id="preview">
+      <h2>Vorschau</h2>
+      <div id="canvas"></div>
+    </div>
+    <?php endif ?>
   </div>
-  <?php endif; ?>
+  <?php include 'snippets/about.tpl.php' ?>
 </div>
-<script src="res/jquery.js"></script>
-<script src="res/jwysiwyg.js"></script>
-<script>
-$(function() {
-  $('.wysiwyg').wysiwyg({
-    controls: {
-      strikeThrough: { visible: false },
-      indent: { visible: false },
-      outdent: { visible: false },
-      underline: { visible: false },
-      justifyLeft: { visible: false },
-      justifyCenter: { visible: false },
-      justifyRight: { visible: false },
-      justifyFull: { visible: false },
-      subscript: { visible: false },
-      superscript: { visible: false },
-      insertHorizontalRule: { visible: false },
-      insertImage: { visible: false },
-      insertTable: { visible: false },
-      code: { visible: false }
-    }
-  });
-});
-</script>
+<script src="res/ender.js"></script>
+<script>var confirmationMsg = 'Ungespeicherte Fortschritte gehen verloren.';</script>
+<script src="res/edit.js"></script>

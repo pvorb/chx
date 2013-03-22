@@ -2,3 +2,4 @@
 .project
 .settings/
 src/conf.php
+node_modules

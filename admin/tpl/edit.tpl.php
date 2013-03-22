@@ -30,7 +30,7 @@ if (isset($_GET['snippet']) && $_GET['snippet'] != '') {
           echo '<option value="'.$snippet_id.'" '.($id == $snippet_id ? ' selected' : '').'>'.$snippet_id.'</option>';
         }
         ?>
-      </select> <input id="choose" type="submit" value="wählen" />
+      </select>
     </h1>
   </form>
   <div id="main">

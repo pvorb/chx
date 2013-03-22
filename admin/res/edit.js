@@ -1,7 +1,7 @@
 var marked = require('marked');
 
 $.domReady(function() {
-  var choose = $('#choose');
+  var chooser = $('#snippet-chooser');
   var canvas = $('#canvas');
   var content = $('#content');
   var hasChanged = false;
@@ -22,22 +22,25 @@ $.domReady(function() {
     }));
   }
 
+  function get(warn) {
+    var redirect = true;
+    if (warn === true) {
+      redirect = confirm(confirmationMsg);
+    }
+    if (redirect) {
+      window.location.href = 'edit.html?snippet=' + chooser[0].value;
+    }
+  }
+
+  chooser.on('change select', get);
+
   function contentChanged() {
     hasChanged = true;
-    choose.attr('onclick', 'return confirm(\'' + confirmationMsg + '\')');
+    chooser.off('change select');
+    chooser.on('change select', function() {
+      get(true);
+    });
 
-    // FIXME prevent accidentally leaving the page and losing changes
-    window.onbeforeunload = function goodbye(e) {
-      if (!e) e = window.event;
-      e.cancelBubble = true;
-      e.returnValue = confirmationMsg;
-
-      if (e.stopPropagation) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    };
-    
     save.removeAttr('disabled');
     var saved = $('.saved');
     if (saved) {
